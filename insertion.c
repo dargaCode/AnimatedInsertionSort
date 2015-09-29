@@ -28,6 +28,7 @@ static bool verbose = false;
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
+void print_data(int len, int array[]);
 
 /*
  * MAIN
@@ -54,6 +55,7 @@ int main(int argc, string argv[])
     //empty array
     int data[len];
     randomize_array(len, data);
+    print_data(len, data);
 
     // success
     return 0;
@@ -111,7 +113,6 @@ bool is_valid(int argc, string argv[])
             verbose = output;
         }
     }
-
     //success
     return true;
 }
@@ -128,8 +129,6 @@ void randomize_array(int len, int array[])
     {
         int value = rand() % (len * RANDOM_SIZE_FACTOR);
         array[i] = value;
-        printf("%i \n", value);
-        delay_ms(100);
     }
 }
 
@@ -148,4 +147,19 @@ void delay_ms(int delay_duration)
         // update time
         now = clock();
     }
+}
+
+/*
+ * Print out the current state of the sort
+ */
+ void print_data(int len, int array[])
+{
+    for (int i = 0; i < len; i++)
+    {
+        printf(" %i", array[i]);
+    }
+    // pause to display data
+    delay_ms(delay_milliseconds);
+    // print new line
+    printf("\n");
 }
