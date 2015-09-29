@@ -21,14 +21,17 @@
 #define VERBOSE_STRING "-v"
 
 // globals with default values for user inputs
-static int delay_ms = 0;
+static int delay_milliseconds = 0;
 static bool verbose = false;
 
 // prototypes
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
+void delay_ms(int duration);
 
-
+/*
+ * MAIN
+ */
 int main(int argc, string argv[])
 {
     // bad input
@@ -88,7 +91,7 @@ bool is_valid(int argc, string argv[])
         // valid; override the global
         else
         {
-            delay_ms = delay;
+            delay_milliseconds = delay;
         }
     }
 
@@ -126,5 +129,23 @@ void randomize_array(int len, int array[])
         int value = rand() % (len * RANDOM_SIZE_FACTOR);
         array[i] = value;
         printf("%i \n", value);
+        delay_ms(100);
+    }
+}
+
+/*
+ * Delay for a given number of milliseconds
+ */
+void delay_ms(int delay_duration)
+{
+    clock_t start = clock();
+    clock_t now = clock();
+    // convert to milliseconds
+    clock_t wait = delay_duration * (CLOCKS_PER_SEC / 1000);
+
+    while (now < start + wait)
+    {
+        // update time
+        now = clock();
     }
 }
