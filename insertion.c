@@ -1,6 +1,7 @@
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 // printf ANSI colors
 #define COLOR_RED     "\x1b[31m"
@@ -14,6 +15,7 @@
 // constants
 #define MAX_LEN 200
 #define MAX_DELAY 1000
+#define RANDOM_SIZE_FACTOR 5
 
 // strings
 #define VERBOSE_STRING "-v"
@@ -24,6 +26,7 @@ static bool verbose = false;
 
 // prototypes
 bool is_valid(int argc, string argv[]);
+void randomize_array(int len, int array[]);
 
 
 int main(int argc, string argv[])
@@ -44,6 +47,10 @@ int main(int argc, string argv[])
     printf(COLOR_GREEN);
     printf("insertion sort %i \n", len);
     printf(COLOR_RESET);
+
+    //empty array
+    int data[len];
+    randomize_array(len, data);
 
     // success
     return 0;
@@ -106,5 +113,18 @@ bool is_valid(int argc, string argv[])
     return true;
 }
 
+/*
+ * Fill array with random numbers
+ */
+void randomize_array(int len, int array[])
+{
+    // random seed based on time
+    srand(time(NULL));
 
-
+    for (int i = 0; i < len; i++)
+    {
+        int value = rand() % (len * RANDOM_SIZE_FACTOR);
+        array[i] = value;
+        printf("%i \n", value);
+    }
+}
