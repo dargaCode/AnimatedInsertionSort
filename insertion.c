@@ -206,6 +206,31 @@ void delay_ms(int delay_duration)
 }
 
 /*
+ * Insert source at destination and shift bounded values
+ */
+void insert(int array[], int source, int dest)
+{
+    // value not actually moving; do nothing
+    if (source == dest)
+    {
+        return;
+    }
+
+    // store source in temp
+    int temp = array[source];
+
+    // for values between source and dest
+    for (int i = source; i > dest; i--)
+    {
+        // shift values one to the right
+        array[i] = array[i - 1];
+    }
+    // once i == dest (default)
+    // restore dest from temp
+    array[dest] = temp;
+}
+
+/*
  * Insertion sort
  */
 void sort_array(int len, int array[])
@@ -264,27 +289,3 @@ void sort_array(int len, int array[])
     print_array(len, array, HIDE, HIDE, HIDE);
 }
 
-/*
- * Insert source at destination and shift bounded values
- */
-void insert(int array[], int source, int dest)
-{
-    // value not actually moving; do nothing
-    if (source == dest)
-    {
-        return;
-    }
-
-    // store source in temp
-    int temp = array[source];
-
-    // for values between source and dest
-    for (int i = source; i > dest; i--)
-    {
-        // shift values one to the right
-        array[i] = array[i - 1];
-    }
-    // once i == dest (default)
-    // restore dest from temp
-    array[dest] = temp;
-}
