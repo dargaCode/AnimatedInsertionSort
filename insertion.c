@@ -203,7 +203,37 @@ void delay_ms(int delay_duration)
  */
 void sort_array(int len, int array[])
 {
-    // yeesh gonna start over and build it bottom-up
+
+    int dest = 0;
+    int done = len - 1;
+    int source = len - 1;
+    int hide = -10;
+    
+    // show starting pass
+    print_array(len, array, done, hide, hide); 
+
+    // show source and destination 
+    print_array(len, array, done, source, dest); 
+
+    printf("source: %i dest: %i \n", array[source], array[dest]);
+
+    // if source >= dest, already sorted; do nothing
+    if (array[source] >= array[dest])
+    {
+        printf("Already sorted! No insert\n");
+    }
+    
+    // if source < dest, insert before dest
+    else if (array[source] < array[dest])
+    {
+            insert(array, source, dest);    
+    }
+    
+    // show all done
+    print_array(len, array, len, hide, hide);
+    // show result
+    print_array(len, array, hide, hide, hide);
+    
 }
 
 /*
