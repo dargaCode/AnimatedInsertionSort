@@ -249,4 +249,15 @@ void sort_array(int len, int array[])
 void insert(int array[], int source, int dest)
 {
     printf("insert %i at [%i]! \n", array[source], dest);
+
+    // move array[source] to temp
+
+    // for i = source; i > dest; i--
+    // array[i] = array[i -1]
+
+    // once i == dest (default)
+    // array[dest] == temp
+
+
+
 }
