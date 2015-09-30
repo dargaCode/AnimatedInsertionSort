@@ -29,7 +29,8 @@ static bool verbose = false;
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
-void print_array(int len, int array[], int done, int source, int slot);
+void print_array(int len, int array[], int done, int source, 
+    int slot, int dest);
 void sort_array(int len, int array[]);
 void insert(int array[], int source, int dest);
 
@@ -153,7 +154,8 @@ void delay_ms(int delay_duration)
 /*
  * Print out the current state of the sort
  */
- void print_array(int len, int array[], int done, int source, int slot)
+ void print_array(int len, int array[], int done, int source,
+    int slot, int dest)
 {
     // clear the screen if not verbose
     if (!verbose)
@@ -186,10 +188,20 @@ void delay_ms(int delay_duration)
         if (i < done)
         {
             printf(COLOR_GREEN);
+            // shifted value color supercedes done color
+            if ((i > slot && slot >= 0) || i == dest)
+            {
+                printf(COLOR_YELLOW);
+            }
         }
         else if (i == source)
         {
             printf(COLOR_RED);
+            // dest color supercedes done color
+            if (i == dest)
+            {
+                printf(COLOR_YELLOW);
+            }
         }
         // skip very last one; only included for brackets
         if (i < len)
@@ -236,36 +248,44 @@ void insert(int array[], int source, int dest)
 void sort_array(int len, int array[])
 {
     // show unsorted array, no done/source/slot/dest
-    print_array(len, array, HIDE, HIDE, HIDE);
+    print_array(len, array, HIDE, HIDE, HIDE, HIDE);
 
     // build the outer loop to check each source
     // first value is always done by default on first pass
     for (int source = 1; source < len; source++)
     {
         int done = source;
-        int slot = source; // add plus 1
+        int slot = source;
 
         // show start of pass with done, no source/slot/dest
-        print_array(len, array, done, HIDE, HIDE);
+        print_array(len, array, done, HIDE, HIDE, HIDE);
 
         // loop through slots to find the dest for this source
         while (slot >= 0)
         {
             // show done/source/slot
-            print_array(len, array, done, source, slot);
+            print_array(len, array, done, source, slot, HIDE);
 
             // found a smaller value; can insert
-            if (array[slot - 1] <= array[source]) // add plus 1
+            if (array[slot - 1] <= array[source])
             {
+                // show done/source/slot/dest
+                print_array(len, array, done, source, slot, 
+                    slot);
+
                 printf("dest found at %i!\n", slot);
                 // insert at one slot to the right
-                insert(array, source, slot); // plus 1
+                insert(array, source, slot);
                 // done!
                 break;
             }
             // ran out of slots; insert 0
             else if (slot == 0)
             {
+                // show done/source/slot/dest
+                print_array(len, array, done, source, slot, 
+                    slot);
+
                 printf("ran out of slots! put at zero.\n");
                 //insert at the beginning
                 insert(array, source, 0);
@@ -276,7 +296,8 @@ void sort_array(int len, int array[])
             else
             {
                 // still not there; keep looking
-                printf("slot %i too big. keep going...\n", slot);
+                printf("slot %i too big. keep going...\n", 
+                    slot);
 
                 // move one more slot to the left
                 slot--;
@@ -284,8 +305,8 @@ void sort_array(int len, int array[])
         }
     }
     // show all values as done, no source/slot/dest
-    print_array(len, array, len, HIDE, HIDE);
+    print_array(len, array, len, HIDE, HIDE, HIDE);
     // show sorted array, no done/source/slot/dest
-    print_array(len, array, HIDE, HIDE, HIDE);
+    print_array(len, array, HIDE, HIDE, HIDE, HIDE);
 }
 
