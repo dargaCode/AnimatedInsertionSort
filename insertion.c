@@ -189,12 +189,22 @@ void delay_ms(int delay_duration)
         {
             printf(COLOR_GREEN);
             // shifted value color supercedes done color
-            if ((i > slot && slot >= 0) || i == dest)
+            if (i > slot && slot >= 0)
+            {
+                printf(COLOR_YELLOW);
+            }
+            if (i >= dest && dest >=0)
+            {
+                printf(COLOR_YELLOW);
+            }
+            if (i >= source && source >= 0)
             {
                 printf(COLOR_YELLOW);
             }
         }
-        else if (i == source)
+        // has to be if instead of else if so source color
+        // can supercede dest color after source is inserted
+        if (i == source)
         {
             printf(COLOR_RED);
             // dest color supercedes done color
@@ -275,6 +285,15 @@ void sort_array(int len, int array[])
 
                 // insert at one slot to the right
                 insert(array, source, slot);
+
+                // don't redraw if source moved to same spot
+                if (slot != source)
+                {
+                    // show finished pass with swapped values
+                    // show done/slot as source, no slot/dest
+                    print_array(len, array, done + 1, slot, HIDE, 
+                        HIDE);
+                }
                 // done!
                 break;
             }
