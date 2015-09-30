@@ -16,7 +16,7 @@
 #define MAX_LEN 200
 #define MAX_DELAY 1000
 #define RANDOM_SIZE_FACTOR 10
-#define HIDE -10 // for done/source/dest
+#define HIDE -10 // for done/source/slot/dest
 
 // strings
 #define VERBOSE_STRING "-v"
@@ -29,7 +29,7 @@ static bool verbose = false;
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
-void print_array(int len, int array[], int done, int source, int dest);
+void print_array(int len, int array[], int done, int source, int slot);
 void sort_array(int len, int array[]);
 void insert(int array[], int source, int dest);
 
@@ -153,7 +153,7 @@ void delay_ms(int delay_duration)
 /*
  * Print out the current state of the sort
  */
- void print_array(int len, int array[], int done, int source, int dest)
+ void print_array(int len, int array[], int done, int source, int slot)
 {
     // clear the screen if not verbose
     if (!verbose)
@@ -161,18 +161,18 @@ void delay_ms(int delay_duration)
         system("clear");
     }
 
-    // print one extra to enable last dest bracket at the end
+    // print one extra to enable last slot bracket at the end
     for (int i = 0; i <= len; i++)
     {
         // brackets
-        if (i == dest)
+        if (i == slot)
         {
             printf(COLOR_YELLOW);
             printf("[");
             printf(COLOR_RESET);
         }
-        // hide brackets when dest starts as -1
-        else if (i == dest + 1 && dest >= 0)
+        // hide brackets when slot starts as -1
+        else if (i == slot + 1 && slot >= 0)
         {
             printf(COLOR_YELLOW);
             printf("]");
@@ -235,7 +235,7 @@ void insert(int array[], int source, int dest)
  */
 void sort_array(int len, int array[])
 {
-    // show unsorted array, no done/source/dest
+    // show unsorted array, no done/source/slot/dest
     print_array(len, array, HIDE, HIDE, HIDE);
 
     // build the outer loop to check each source
@@ -243,28 +243,28 @@ void sort_array(int len, int array[])
     for (int source = 1; source < len; source++)
     {
         int done = source;
-        int dest = source; // add plus 1
+        int slot = source; // add plus 1
 
-        // show beginning of pass with done, no source/dest
+        // show start of pass with done, no source/slot/dest
         print_array(len, array, done, HIDE, HIDE);
 
         // loop through slots to find the dest for this source
-        while (dest >= 0)
+        while (slot >= 0)
         {
-            // show done/source/dest
-            print_array(len, array, done, source, dest);
+            // show done/source/slot
+            print_array(len, array, done, source, slot);
 
             // found a smaller value; can insert
-            if (array[dest - 1] <= array[source]) // add plus 1
+            if (array[slot - 1] <= array[source]) // add plus 1
             {
-                printf("dest found at %i!\n", dest);
-                // insert at one dest to the right
-                insert(array, source, dest); // plus 1
+                printf("dest found at %i!\n", slot);
+                // insert at one slot to the right
+                insert(array, source, slot); // plus 1
                 // done!
                 break;
             }
-            // ran out of dest spaces; put at 0
-            else if (dest == 0)
+            // ran out of slots; insert 0
+            else if (slot == 0)
             {
                 printf("ran out of slots! put at zero.\n");
                 //insert at the beginning
@@ -276,16 +276,16 @@ void sort_array(int len, int array[])
             else
             {
                 // still not there; keep looking
-                printf("dest %i too big. keep going...\n", dest);
+                printf("slot %i too big. keep going...\n", slot);
 
                 // move one more slot to the left
-                dest--;
+                slot--;
             }
         }
     }
-    // show all values as done, no dest/source
+    // show all values as done, no source/slot/dest
     print_array(len, array, len, HIDE, HIDE);
-    // show sorted array, no done/dest/source
+    // show sorted array, no done/source/slot/dest
     print_array(len, array, HIDE, HIDE, HIDE);
 }
 
