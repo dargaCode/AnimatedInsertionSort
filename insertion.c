@@ -243,7 +243,7 @@ void sort_array(int len, int array[])
     for (int source = 1; source < len; source++)
     {
         int done = source;
-        int dest = source - 1;
+        int dest = source; // add plus 1
 
         // show beginning of pass with done, no source/dest
         print_array(len, array, done, HIDE, HIDE);
@@ -255,11 +255,11 @@ void sort_array(int len, int array[])
             print_array(len, array, done, source, dest);
 
             // found a smaller value; can insert
-            if (array[dest] <= array[source])
+            if (array[dest - 1] <= array[source]) // add plus 1
             {
-                printf("dest found at %i + 1!\n", dest);
+                printf("dest found at %i!\n", dest);
                 // insert at one dest to the right
-                insert(array, source, dest + 1);
+                insert(array, source, dest); // plus 1
                 // done!
                 break;
             }
@@ -268,7 +268,7 @@ void sort_array(int len, int array[])
             {
                 printf("ran out of slots! put at zero.\n");
                 //insert at the beginning
-                insert(array, source, dest);
+                insert(array, source, 0);
                 // done!
                 break;
             }
