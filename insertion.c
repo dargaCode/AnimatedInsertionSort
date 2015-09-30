@@ -29,7 +29,8 @@ bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
 void print_array(int len, int array[], int done, int active);
-void sort_array(int lne, int array[]);
+void sort_array(int len, int array[]);
+void insert(int array[], int source, int dest);
 
 /*
  * MAIN
@@ -200,18 +201,52 @@ void sort_array(int len, int array[])
     // outer loop for sort passes
     for (int i = 0; i < len; i++)
     {
-        int done = i;
-        print_array(len, array, done, -10);
-
-        //int source = done;
-        //int destination = done - 1;
+        print_array(len, array, i, -10);
         
         // inner loop for array elements
         
+        // start at the first unsorted element past done
+        int source = i;
+        int dest = i;
+
+        // loop the destination through done down to 0
+        while (dest > 0)
+        {
+            // show the destination being checked
+            print_array(len, array, i, dest);
+
+            // check if the source value is <= the dest value
+            if (array[dest] <= array[source])
+            {
+                // if so, insert and break
+                insert(array, source, dest);
+                break;
+            }
+            // else decrease dest
+            dest--;
+        }
+
+
+        // if you reach 0 without inserting, just insert at 0
+        // if first value, can insert immediately
+
+        // TODO is this if redundant?
+        if (dest == 0)
+        {
+            insert(array, source, dest);
+        }
 
     }
     // show last pass all green
     print_array(len, array, len, -10);
     // show final sorted array
     print_array(len, array, -10, -10);
+}
+
+/*
+ * Insert source at destination and shift interim values
+ */
+void insert(int array[], int source, int dest)
+{
+    printf("insert %i at [%i]! \n", array[source], dest);
 }
