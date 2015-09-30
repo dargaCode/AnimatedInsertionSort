@@ -199,29 +199,53 @@ void delay_ms(int delay_duration)
 void sort_array(int len, int array[])
 {
     print_array(len, array, len -1, -10);
-    insert(array, 0, 0);
+    insert(array, len -1, 0);
+    print_array(len, array, len, -10);
+
+	// show unsorted array
+
+	// outer loop for sorting passes
+	// for i = 0 i < len i++
+		// show how many are done
+		// print array (len, array, i, -10)
+		
+		// initialize source to 0
+		// initialize dest to source
+		
+		// inner loop for each insertion		
+		// while dest > 0
+			// check if dest value <= source value
+			// if so insert source at dest + 1
+			// and break
+		
+		// by now dest must be zero
+		// insert source at dest
+		// break
+
+	// show all green array
+	// show sorted array
+	// all done
+
 }
 
 /*
- * Insert source at destination and shift interim values
+ * Insert source at destination and shift bounded values
  */
 void insert(int array[], int source, int dest)
 {
+	// TODO temp
     printf("insert %i at [%i]! \n", array[source], dest);
 
-    // move array[source] to temp
+    // store source in temp
     int temp = array[source]; 
     
-    // for i = source; i > dest; i--
+    // for values between source and dest
     for (int i = source; i > dest; i--)
     {
-        // array[i] = array[i -1]
+        // shift values one to the right
         array[i] = array[i - 1];
-        print_array(5, array, -10, -10);
-        
     }
     // once i == dest (default)
-    // array[dest] == temp
+    // restore dest from temp
     array[dest] = temp;
-    print_array(5, array, -10, -10);
 }
