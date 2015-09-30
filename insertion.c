@@ -203,41 +203,7 @@ void delay_ms(int delay_duration)
  */
 void sort_array(int len, int array[])
 {
-	// outer loop for sorting passes
-	// for i = 0 i < len i++
-	for (int i = 0; i < len; i++)
-	{
-		// show starting pass with done but no source/dest
-		print_array(len, array, i, -10, -10);
-
-		// initialize source to i
-		int source = i;
-		// initialize dest to source
-		int dest = source - 1;
-
-		// inner loop for each insertion
-		// loop dest down to 0
-		while (dest > 0)
-		{
-			// show done/source/dest
-			print_array(len, array, i, source, dest);
-			// check if dest value <= source value
-				// if so insert source at dest + 1
-				// and break
-			// if not, decrement dest
-			dest--;
-		}
-		// by now dest must be zero
-		// show done/source/dest
-		print_array(len, array, i, source, dest);
-		// insert source at dest
-		// break
-	}
-	// show all as done but no source/dest
-	print_array(len, array, len, -10, -10);
-	// show sorted array with no done/source/dest
-	print_array(len, array, -10, -10, -10);
-	// finished sorting
+    // yeesh gonna start over and build it bottom-up
 }
 
 /*
