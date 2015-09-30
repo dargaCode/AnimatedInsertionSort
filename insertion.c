@@ -153,10 +153,38 @@ void delay_ms(int delay_duration)
  */
  void print_array(int len, int array[], int done, int active)
 {
-    for (int i = 0; i < len; i++)
+    // print one extra to enable last active bracket
+    for (int i = 0; i <= len; i++)
     {
-        // actually print the element
-        printf("%i", array[i]);
+        // brackets
+        if (i == active)
+        {
+            printf(COLOR_YELLOW);
+            printf("[");
+            printf(COLOR_RESET);
+        }
+        else if (i == active + 1)
+        {
+            printf(COLOR_YELLOW);
+            printf("]");
+            printf(COLOR_RESET);
+        }
+        else
+        {
+            printf(" ");
+        }    
+        // colors for the element
+        if (i < done)
+        {
+            printf(COLOR_GREEN);
+        }
+        // skip very last one; only included for brackets
+        if (i < len)
+        {
+            // actually print the element
+            printf("%i", array[i]);
+        }        
+        printf(COLOR_RESET);        
     }
     // pause to display data
     delay_ms(delay_milliseconds);
@@ -175,12 +203,21 @@ void sort_array(int len, int array[])
         int done = i;
         print_array(len, array, done, -10);
 
-        // inner loop for array elements
-        for (int j = 0; j < done; j++)
+        // final value will always be sorted
+        if (done == len - 1)
         {
-            
-        
+            break;
         }
         
+        //int source = done;
+        //int destination = done - 1;
+        
+        // inner loop for array elements
+        
+
     }
+    // show last pass all green
+    print_array(len, array, len, -10);
+    // show final sorted array
+    print_array(len, array, -10, -10);
 }
