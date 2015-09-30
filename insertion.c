@@ -28,7 +28,8 @@ static bool verbose = false;
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
-void print_data(int len, int array[]);
+void print_array(int len, int array[], int done, int active);
+void sort_array(int lne, int array[]);
 
 /*
  * MAIN
@@ -46,16 +47,14 @@ int main(int argc, string argv[])
         return 1;
     }
 
+    // no buffer for printed text, allowing partial lines
+    setbuf(stdout, NULL);
+
     // good input
     int len = atoi(argv[1]);
-    printf(COLOR_GREEN);
-    printf("insertion sort %i \n", len);
-    printf(COLOR_RESET);
-
-    //empty array
     int data[len];
     randomize_array(len, data);
-    print_data(len, data);
+    sort_array(len, data);
 
     // success
     return 0;
@@ -152,14 +151,36 @@ void delay_ms(int delay_duration)
 /*
  * Print out the current state of the sort
  */
- void print_data(int len, int array[])
+ void print_array(int len, int array[], int done, int active)
 {
     for (int i = 0; i < len; i++)
     {
-        printf(" %i", array[i]);
+        // actually print the element
+        printf("%i", array[i]);
     }
     // pause to display data
     delay_ms(delay_milliseconds);
     // print new line
     printf("\n");
+}
+
+/*
+ * Insertion sort
+ */
+void sort_array(int len, int array[])
+{
+    // outer loop for sort passes
+    for (int i = 0; i < len; i++)
+    {
+        int done = i;
+        print_array(len, array, done, -10);
+
+        // inner loop for array elements
+        for (int j = 0; j < done; j++)
+        {
+            
+        
+        }
+        
+    }
 }
