@@ -16,6 +16,7 @@
 #define MAX_LEN 200
 #define MAX_DELAY 1000
 #define RANDOM_SIZE_FACTOR 10
+#define HIDE -10 // for done/source/dest
 
 // strings
 #define VERBOSE_STRING "-v"
@@ -203,37 +204,59 @@ void delay_ms(int delay_duration)
  */
 void sort_array(int len, int array[])
 {
+    // show unsorted array, no done/source/dest
+    print_array(len, array, HIDE, HIDE, HIDE);
 
-    int dest = 0;
-    int done = len - 1;
-    int source = len - 1;
-    int hide = -10;
-    
-    // show starting pass
-    print_array(len, array, done, hide, hide); 
-
-    // show source and destination 
-    print_array(len, array, done, source, dest); 
-
-    printf("source: %i dest: %i \n", array[source], array[dest]);
-
-    // if source >= dest, already sorted; do nothing
-    if (array[source] >= array[dest])
+    // build the outer loop to check each source
+    // first value is always done by default on first pass
+    for (int source = 1; source < len; source++)
     {
-        printf("Already sorted! No insert\n");
+        int done = source;
+        int dest = source - 1;
+
+        // show beginning of pass with done, no source/dest
+        print_array(len, array, done, HIDE, HIDE);
+
+        // loop through slots to find the dest for this source
+        while (dest >= 0)
+        {
+            // show done/source/dest
+            print_array(len, array, done, source, dest);
+
+            // found a smaller value; can insert
+            if (array[dest] <= array[source])
+            {
+                printf("dest found at %i + 1!\n", dest);
+                // insert at one dest to the right
+                insert(array, source, dest + 1);
+                // done!
+                break;
+            }
+
+            // still not there; keep looking
+            printf("dest %i too big. keep going...\n", dest);
+
+            // ran out of dest spaces; put at 0
+            if (dest == 0)
+            {
+                printf("ran out of slots! put at zero.\n");
+                //insert at the beginning
+                insert(array, source, dest);
+                // done!
+                break;
+            }
+            // keep looking by continuing the loop
+            else
+            {
+                // move one more slot to the left
+                dest--;
+            }
+        }
     }
-    
-    // if source < dest, insert before dest
-    else if (array[source] < array[dest])
-    {
-            insert(array, source, dest);    
-    }
-    
-    // show all done
-    print_array(len, array, len, hide, hide);
-    // show result
-    print_array(len, array, hide, hide, hide);
-    
+    // show all values as done, no dest/source
+    print_array(len, array, len, HIDE, HIDE);
+    // show sorted array, no done/dest/source
+    print_array(len, array, HIDE, HIDE, HIDE);
 }
 
 /*
@@ -245,8 +268,8 @@ void insert(int array[], int source, int dest)
     printf("insert %i at [%i]! \n", array[source], dest);
 
     // store source in temp
-    int temp = array[source]; 
-    
+    int temp = array[source];
+
     // for values between source and dest
     for (int i = source; i > dest; i--)
     {
