@@ -28,7 +28,7 @@ static bool verbose = false;
 bool is_valid(int argc, string argv[]);
 void randomize_array(int len, int array[]);
 void delay_ms(int duration);
-void print_array(int len, int array[], int done, int active);
+void print_array(int len, int array[], int done, int source, int dest);
 void sort_array(int len, int array[]);
 void insert(int array[], int source, int dest);
 
@@ -152,19 +152,20 @@ void delay_ms(int delay_duration)
 /*
  * Print out the current state of the sort
  */
- void print_array(int len, int array[], int done, int active)
+ void print_array(int len, int array[], int done, int source, int dest)
 {
-    // print one extra to enable last active bracket
+    // print one extra to enable last dest bracket
     for (int i = 0; i <= len; i++)
     {
         // brackets
-        if (i == active)
+        if (i == dest)
         {
             printf(COLOR_YELLOW);
             printf("[");
             printf(COLOR_RESET);
         }
-        else if (i == active + 1)
+        // hide brackets when dest starts as -1
+        else if (i == dest + 1 && dest >= 0)
         {
             printf(COLOR_YELLOW);
             printf("]");
@@ -179,12 +180,16 @@ void delay_ms(int delay_duration)
         {
             printf(COLOR_GREEN);
         }
+        else if (i == source)
+        {
+            printf(COLOR_RED);
+        }
         // skip very last one; only included for brackets
         if (i < len)
         {
             // actually print the element
             printf("%i", array[i]);
-        }        
+        }
         printf(COLOR_RESET);        
     }
     // pause to display data
@@ -198,34 +203,41 @@ void delay_ms(int delay_duration)
  */
 void sort_array(int len, int array[])
 {
-    print_array(len, array, len -1, -10);
-    insert(array, len -1, 0);
-    print_array(len, array, len, -10);
-
-	// show unsorted array
-
 	// outer loop for sorting passes
 	// for i = 0 i < len i++
-		// show how many are done
-		// print array (len, array, i, -10)
-		
-		// initialize source to 0
+	for (int i = 0; i < len; i++)
+	{
+		// show starting pass with done but no source/dest
+		print_array(len, array, i, -10, -10);
+
+		// initialize source to i
+		int source = i;
 		// initialize dest to source
-		
-		// inner loop for each insertion		
-		// while dest > 0
+		int dest = source - 1;
+
+		// inner loop for each insertion
+		// loop dest down to 0
+		while (dest > 0)
+		{
+			// show done/source/dest
+			print_array(len, array, i, source, dest);
 			// check if dest value <= source value
-			// if so insert source at dest + 1
-			// and break
-		
+				// if so insert source at dest + 1
+				// and break
+			// if not, decrement dest
+			dest--;
+		}
 		// by now dest must be zero
+		// show done/source/dest
+		print_array(len, array, i, source, dest);
 		// insert source at dest
 		// break
-
-	// show all green array
-	// show sorted array
-	// all done
-
+	}
+	// show all as done but no source/dest
+	print_array(len, array, len, -10, -10);
+	// show sorted array with no done/source/dest
+	print_array(len, array, -10, -10, -10);
+	// finished sorting
 }
 
 /*
