@@ -75,7 +75,7 @@ bool is_valid(int argc, string argv[])
 
     // require valid array length as second argument
     int len = atoi(argv[1]);
-    // outside of the acceptible range
+    // outside of the acceptable range
     if (len < 1 || len > MAX_LEN)
     {
         return false;
@@ -155,7 +155,13 @@ void delay_ms(int delay_duration)
  */
  void print_array(int len, int array[], int done, int source, int dest)
 {
-    // print one extra to enable last dest bracket
+    // clear the screen if not verbose
+    if (!verbose)
+    {
+        system("clear");
+    }
+
+    // print one extra to enable last dest bracket at the end
     for (int i = 0; i <= len; i++)
     {
         // brackets
