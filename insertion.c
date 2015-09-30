@@ -273,7 +273,6 @@ void sort_array(int len, int array[])
                 print_array(len, array, done, source, slot, 
                     slot);
 
-                printf("dest found at %i!\n", slot);
                 // insert at one slot to the right
                 insert(array, source, slot);
                 // done!
@@ -286,7 +285,6 @@ void sort_array(int len, int array[])
                 print_array(len, array, done, source, slot, 
                     slot);
 
-                printf("ran out of slots! put at zero.\n");
                 //insert at the beginning
                 insert(array, source, 0);
                 // done!
@@ -295,10 +293,6 @@ void sort_array(int len, int array[])
             // keep looking by continuing the loop
             else
             {
-                // still not there; keep looking
-                printf("slot %i too big. keep going...\n", 
-                    slot);
-
                 // move one more slot to the left
                 slot--;
             }
