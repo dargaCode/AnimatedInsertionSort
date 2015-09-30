@@ -232,12 +232,8 @@ void sort_array(int len, int array[])
                 // done!
                 break;
             }
-
-            // still not there; keep looking
-            printf("dest %i too big. keep going...\n", dest);
-
             // ran out of dest spaces; put at 0
-            if (dest == 0)
+            else if (dest == 0)
             {
                 printf("ran out of slots! put at zero.\n");
                 //insert at the beginning
@@ -248,6 +244,9 @@ void sort_array(int len, int array[])
             // keep looking by continuing the loop
             else
             {
+                // still not there; keep looking
+                printf("dest %i too big. keep going...\n", dest);
+
                 // move one more slot to the left
                 dest--;
             }
@@ -264,8 +263,11 @@ void sort_array(int len, int array[])
  */
 void insert(int array[], int source, int dest)
 {
-	// TODO temp
-    printf("insert %i at [%i]! \n", array[source], dest);
+    // value not actually moving; do nothing
+    if (source == dest)
+    {
+        return;
+    }
 
     // store source in temp
     int temp = array[source];
