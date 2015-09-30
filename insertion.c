@@ -197,10 +197,6 @@ void delay_ms(int delay_duration)
             {
                 printf(COLOR_YELLOW);
             }
-            if (i >= source && source >= 0)
-            {
-                printf(COLOR_YELLOW);
-            }
         }
         // has to be if instead of else if so source color
         // can supercede dest color after source is inserted
@@ -290,7 +286,7 @@ void sort_array(int len, int array[])
                 if (slot != source)
                 {
                     // show finished pass with swapped values
-                    // show done/slot as source, no slot/dest
+                    // show done/source, no slot/dest
                     print_array(len, array, done + 1, slot, HIDE, 
                         HIDE);
                 }
