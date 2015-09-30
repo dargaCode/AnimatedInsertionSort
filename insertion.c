@@ -15,7 +15,7 @@
 // constants
 #define MAX_LEN 200
 #define MAX_DELAY 1000
-#define RANDOM_SIZE_FACTOR 5
+#define RANDOM_SIZE_FACTOR 10
 
 // strings
 #define VERBOSE_STRING "-v"
