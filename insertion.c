@@ -203,12 +203,6 @@ void sort_array(int len, int array[])
         int done = i;
         print_array(len, array, done, -10);
 
-        // final value will always be sorted
-        if (done == len - 1)
-        {
-            break;
-        }
-        
         //int source = done;
         //int destination = done - 1;
         
