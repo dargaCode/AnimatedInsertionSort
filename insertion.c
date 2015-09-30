@@ -211,10 +211,10 @@ void delay_ms(int delay_duration)
         }
         printf(COLOR_RESET);        
     }
-    // pause to display data
-    delay_ms(delay_milliseconds);
     // print new line
     printf("\n");
+    // pause to display data
+    delay_ms(delay_milliseconds);
 }
 
 /*
