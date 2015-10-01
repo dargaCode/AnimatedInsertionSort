@@ -13,7 +13,7 @@
 #define COLOR_RESET   "\x1b[0m"
 
 // constants
-#define MAX_LEN 200
+#define MAX_LEN 100
 #define MAX_DELAY 1000
 #define RANDOM_SIZE_FACTOR 10
 #define HIDE -10 // for done/source/slot/dest
@@ -43,7 +43,8 @@ int main(int argc, string argv[])
     if (!is_valid(argc, argv))
     {
         printf(COLOR_RED);
-        printf("FAILURE \n");
+        printf("Usage: insertion <size 1-%i> ", MAX_LEN);
+        printf("<delay ms 1-%i> \n", MAX_DELAY);
         printf(COLOR_RESET);
 
         // failure
